@@ -1,5 +1,7 @@
 # Pemrograman Client Server
 
+## Repository ini berisi hasil latihan materi mata kuliah Pemrograman Client Server. Kode dasar berasal dari modul dosen.
+
 ## Struktur Folder
 * `project-client-kampus/`: Berisi file Frontend (HTML, CSS, JS).
 * `project-api-kampus/`: Berisi file Backend/API.
