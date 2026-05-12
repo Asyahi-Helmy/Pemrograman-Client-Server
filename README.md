@@ -6,9 +6,26 @@
 
 ## Cara Menjalankan
 
-1. Pastikan Anda sudah menginstal **Node.js**.
+1. Buat Database: 
+   Buat database MySQL baru (misalnya melalui PHPMyAdmin) dengan nama `db_kampus_api`.
 
-2. Buka terminal di folder `project-api-kampus`, lalu jalankan:
+2. Konfigurasi Environment:
+   Buat file baru bernama `.env` di dalam folder `project-api-kampus/`. 
+   
+   **Penting:** Anda bisa menyesuaikan isi file ini sesuai dengan konfigurasi database lokal Anda (misalnya jika Anda menggunakan password database). 
+   
+   Isi file `.env`:
+   ```env
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASS=               # Isi jika database Anda menggunakan password
+   DB_NAME=db_kampus_api  # Sesuaikan dengan nama database yang Anda buat
+   PORT=3000              # Port default server (bisa diganti jika bentrok)
+   ```
+
+3. Pastikan Anda sudah menginstal **Node.js**.
+
+4. Buka terminal di folder `project-api-kampus`, lalu jalankan:
 
     ```bash
     npm init -y
@@ -25,4 +42,4 @@
     npm run dev
     ```
 
-3. Buka file `project-client-kampus/index.html` menggunakan **Live Server** di VS Code.
+5. Buka file `project-client-kampus/index.html` menggunakan **Live Server** di VS Code.
