@@ -80,9 +80,17 @@ async function tambahMahasiswa(event) {
         });
         const hasil = await response.json();
         if (response.ok || response.status === 201) {
-            alert("Berhasil: " + hasil.message);
+            // GANTI alert(...) menjadi ini:
+            Swal.fire({
+                title: 'Berhasil!',
+                text: hasil.message,
+                icon: 'success',
+                timer: 2000, // Otomatis hilang dalam 2 detik
+                showConfirmButton: false
+            });
+
             document.getElementById("form-tambah").reset();
-            ambilDataMahasiswa(); // Refresh data di layar
+            ambilDataMahasiswa
         } else {
             if (hasil.errors && hasil.errors.length > 0) {
                 alert("Validasi Gagal: " + hasil.errors[0].msg);
@@ -99,23 +107,33 @@ async function tambahMahasiswa(event) {
 // 3. FUNGSI DELETE (Menghapus Data)
 // ==========================================
 async function hapusMahasiswa(nimTarget) {
-    const yakin = confirm(`Apakah Anda yakin ingin menghapus mahasiswa dengan NIM ${nimTarget}?`);
-    if (!yakin) return; // Jika user klik cancel, hentikan
-    try {
-        const url = `http://localhost:3000/api/mahasiswa/${nimTarget}`;
-        const response = await fetch(url, {
-            method: 'DELETE'
-        });
-        const hasil = await response.json();
-        if (response.ok) {
-            alert("Berhasil: " + hasil.message);
-            ambilDataMahasiswa(); // Refresh tampilan kartu
-        } else {
-            alert("Gagal: " + hasil.message);
+    // Gunakan Swal.fire sebagai pengganti confirm()
+    const result = await Swal.fire({
+        title: 'Apakah Anda Yakin?',
+        text: `Data mahasiswa dengan NIM ${nimTarget} akan dihapus permanen!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    });
+    // Jika user menekan tombol "Ya, Hapus!"
+    if (result.isConfirmed) {
+        try {
+            const url = `http://localhost:3000/api/mahasiswa/${nimTarget}`;
+            const response = await fetch(url, { method: 'DELETE' });
+            const hasil = await response.json();
+            if (response.ok) {
+                // Notifikasi sukses yang elegan
+                Swal.fire('Terhapus!', hasil.message, 'success');
+                ambilDataMahasiswa(); // Refresh data
+            } else {
+                Swal.fire('Gagal!', hasil.message, 'error');
+            }
+        } catch (error) {
+            Swal.fire('Error Network', 'Gagal terhubung ke server', 'error');
         }
-    } catch (error) {
-        console.error("Terjadi error saat menghapus:", error);
-        alert("Terjadi kesalahan jaringan!");
     }
 }
 // ==========================================
